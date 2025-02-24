@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
-use illuminate\Http\JsonRequest;
+use Illuminate\Http\JsonResponse;
 
 class ProductoController extends Controller
 {
@@ -43,8 +43,8 @@ class ProductoController extends Controller
     public function show(string $id): JsonResponse
     {
         $producto = Producto::find($id);
-        if(!$producto){
-            return response()->json(['Error'=>'Producto no encontrado'], 404);
+        if (!$producto) {
+            return response()->json(['Error' => 'Producto no encontrado'], 404);
         }
         return response()->json($producto);
     }
@@ -55,8 +55,8 @@ class ProductoController extends Controller
     public function update(Request $request, string $id): JsonResponse
     {
         $producto = Producto::find($id);
-        if(!$producto){
-            return response()->json(['Error'=>'Producto no encontrado'], 404);
+        if (!$producto) {
+            return response()->json(['Error' => 'Producto no encontrado'], 404);
         }
 
         $validated = $request->validate([
@@ -81,10 +81,10 @@ class ProductoController extends Controller
     public function destroy(string $id): JsonResponse
     {
         $producto = Producto::find($id);
-        if(!$producto){
+        if (!$producto) {
             return response()->json(['Error' => 'Producto no encontrado'], 404);
         }
         $producto->delete();
-        return response()->(['message' => 'Producto eliminado correctamente']);
+        return response()->json(['message' => 'Artículo eliminado']);
     }
 }
