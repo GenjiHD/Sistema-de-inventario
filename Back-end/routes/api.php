@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\MunicipiosController;
 use App\Http\Controllers\DepartamentosController;
 use App\Http\Controllers\DelegacionController;
+use App\Http\Controllers\ReporteMovimientoController;
 
 // Rutas para los productos
 
@@ -24,3 +25,7 @@ Route::get('/departamentos', [DepartamentosController::class, 'index']);
 //Rutas para Delegaciones
 
 Route::get('/delegaciones', [DelegacionController::class, 'index']);
+
+//Rutas para reportes de movimientos
+
+Route::get('/reportes-movimientos', [ReporteMovimientoController::class, 'index']);
