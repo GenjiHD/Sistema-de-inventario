@@ -20,4 +20,5 @@ class Productos extends Model
         'Cantidad',
         'Valor'
     ];
+    public $timestamps = false;
 }

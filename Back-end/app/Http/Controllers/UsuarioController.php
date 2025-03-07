@@ -57,4 +57,69 @@ class UsuarioController extends Controller
             return response()->json($data, 500);
         }
     }
+
+    public function update(Request $request, $id)
+    {
+        $usuario = Usuario::find($id);
+
+        if (!$usuario) {
+            $data = [
+                'message' => 'Usuario no encontrado',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $validator = $request->validate([
+            'Nombre' => 'sometimes|string',
+            'Contraseña' => 'sometimes|string',
+            'Puesto' => 'sometimes|string',
+            'Estado' => 'sometimes|boolean'
+        ]);
+
+        if (isset($validator['Nombre'])) {
+            $usuario->Nombre = $validator['Nombre'];
+        }
+        if (isset($validator['Contraseña'])) {
+            $usuario->Contraseña = bcrypt($validator['Contraseña']);
+        }
+        if (isset($validator['Puesto'])) {
+            $usuario->Puesto = $validator['Puesto'];
+        }
+        if (isset($validator['Estado'])) {
+            $usuario->Estado = $validator['Estado'];
+        }
+
+        $usuario->save();
+
+        $data = [
+            'message' => 'Usuario actualizado correctamente',
+            'usuario' => $usuario,
+            'status' => 200
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    public function destroy($id)
+    {
+        $usuario = Usuario::find($id);
+
+        if (!$usuario) {
+            $data = [
+                'message' => 'Usuario no encontrado',
+                'status' => 404
+            ];
+            return response()->json($data, 404);
+        }
+
+        $usuario->delete();
+
+        $data = [
+            'message' => 'Usuario eliminado correctamente',
+            'status' => 200
+        ];
+
+        return response()->json($data, 200);
+    }
 }

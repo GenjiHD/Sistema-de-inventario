@@ -14,7 +14,10 @@ use App\Http\Controllers\UsuarioController;
 // Rutas para los productos
 
 Route::get('/productos', [ProductoController::class, 'index']);
-
+Route::post('/productos', [ProductoController::class, 'store']);
+Route::put('/productos/{id}', [ProductoController::class, 'update']);
+Route::delete('/productos/{id}', [ProductoController::class, 'destroy']);
+Route::get('/productos/buscar', [ProductoController::class, 'buscar']);
 
 //Rutas para Municipios
 
@@ -40,3 +43,5 @@ Route::get('/tipos-movimientos', [TipoMovimientoController::class, 'index']);
 
 Route::get('/usuarios', [UsuarioController::class, 'index']);
 Route::post('/usuarios', [UsuarioController::class, 'store']);
+Route::put('/usuarios/{id}', [UsuarioController::class, 'update']);
+Route::delete('/usuarios/{id}', [UsuarioController::class, 'destroy']);
