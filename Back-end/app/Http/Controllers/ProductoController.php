@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Productos;
 use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use function PHPUnit\Framework\isEmpty;
 
@@ -61,66 +62,54 @@ class ProductoController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Buscar el producto por ID
         $producto = Productos::find($id);
 
+        // Si el producto no existe, retornar un error 404
         if (!$producto) {
-            $data = [
+            return response()->json([
                 'message' => 'Producto no encontrado',
                 'status' => 404
-            ];
-            return response()->json($data, 404);
+            ], 404);
         }
 
-        $validator = $request->validate([
-            'NumeroControl' => 'sometimes|string',
-            'NumeroSerie' => 'sometimes|string',
-            'Descripcion' => 'sometimes|string',
-            'Modelo' => 'sometimes|string',
-            'Marca' => 'sometimes|string',
-            'Categoria' => 'sometimes|string',
-            'Factura' => 'sometimes|string',
-            'Cantidad' => 'sometimes|int',
-            'Valor' => 'sometimes|double'
+        // Validar los datos de entrada
+        $validator = Validator::make($request->all(), [
+            'NumeroControl' => 'sometimes|string|max:30',
+            'NumeroSerie' => 'sometimes|string|max:30',
+            'Descripcion' => 'sometimes|string|max:300',
+            'Modelo' => 'sometimes|string|max:50',
+            'Marca' => 'sometimes|string|max:50',
+            'Categoria' => 'sometimes|string|max:30',
+            'Factura' => 'sometimes|string|max:30',
+            'Cantidad' => 'sometimes|integer',
+            'FechaAlta' => 'sometimes|date',
+            'FechaBaja' => 'sometimes|date|nullable',
+            'Valor' => 'sometimes|numeric|between:0,99999999.99'
         ]);
 
-        if (isset($producto['NumeroControl'])) {
-            $producto->NumeroControl = $validator['NumeroControl'];
-        }
-        if (isset($producto['NumeroSerie'])) {
-            $producto->NumeroSerie = $validator['NumeroSerie'];
-        }
-        if (isset($producto['Descripcion'])) {
-            $producto->Descripcion = $validator['Descripcion'];
-        }
-        if (isset($producto['Modelo'])) {
-            $producto->Modelo = $validator['Modelo'];
-        }
-        if (isset($producto['Marca'])) {
-            $producto->Marca = $validator['Marca'];
-        }
-        if (isset($producto['Categoria'])) {
-            $producto->Categorias = $validator['Categoria'];
-        }
-        if (isset($producto['Factura'])) {
-            $producto->Factura = $validator['Factura'];
-        }
-        if (isset($producto['Cantidad'])) {
-            $producto->Cantidad = $validator['Cantidad'];
-        }
-        if (isset($producto['Valor'])) {
-            $producto->Valor = $validator['Valor'];
+        // Si la validación falla, retornar errores
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Error de validación',
+                'errors' => $validator->errors(),
+                'status' => 400
+            ], 400);
         }
 
+        // Actualizar solo los campos proporcionados en la solicitud
+        $producto->fill($validator->validated());
+
+        // Guardar los cambios en la base de datos
         $producto->save();
 
-        $data = [
-            'message' => 'Producto guardado correctamente',
+        // Retornar una respuesta exitosa
+        return response()->json([
+            'message' => 'Producto actualizado correctamente',
             'Producto' => $producto,
             'status' => 200
-        ];
-        return response()->json($data, 200);
+        ], 200);
     }
-
     public function destroy($id)
     {
         $producto = Productos::find($id);

@@ -18,6 +18,8 @@ class Productos extends Model
         'Categoria',
         'Factura',
         'Cantidad',
+        'FechaAlta',
+        'FechaBaja',
         'Valor'
     ];
     public $timestamps = false;
