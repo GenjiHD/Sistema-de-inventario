@@ -34,7 +34,7 @@ class DepartamentosController extends Controller
             $data = [
                 'Departamentos' => $departamento,
                 'message' => 'El departamento se creo correctamente',
-                'error' => 200
+                'status' => 200
             ];
         } catch (\Exception $e) {
             $data = [

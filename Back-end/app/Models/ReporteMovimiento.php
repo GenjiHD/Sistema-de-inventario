@@ -9,7 +9,6 @@ class ReporteMovimiento extends Model
     protected $table = 'ReporteMovimiento';
 
     protected $fillable = [
-        'ReporteID',
         'ProductoID',
         'UsuarioID',
         'DeleOrigen',
