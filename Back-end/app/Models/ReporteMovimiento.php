@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ReporteMovimiento extends Model
 {
+
+    protected $primaryKey = 'ReporteID';
     protected $table = 'ReporteMovimiento';
 
     protected $fillable = [
@@ -18,4 +21,34 @@ class ReporteMovimiento extends Model
         'TipoMovID',
         'FechaMov'
     ];
+
+    // Relaciones
+    public function producto()
+    {
+        return $this->belongsTo(Productos::class, 'ProductosID');
+    }
+
+    public function tipoMovimiento()
+    {
+        return $this->belongsTo(TipoMovimiento::class, 'TipoMovID');
+    }
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class, 'UsuarioID');
+    }
+
+    // Evento para actualizar productos al crear un reporte de movimiento
+    protected static function booted()
+    {
+        static::created(function ($movimiento) {
+            $tipoBaja = TipoMovimiento::where('Descripcion', 'Baja')->first();
+
+            if ($movimiento->TipoMovID == $tipoBaja->TipoMovID) {
+                DB::table('Productos')
+                    ->where('ProductoID', $movimiento->ProductoID)
+                    ->update(['FechaBaja' => $movimiento->FechaMov]);
+            }
+        });
+    }
 }

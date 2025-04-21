@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\ReporteMovimiento;
+use App\Models\TipoMovimiento;
 use Dotenv\Repository\RepositoryInterface;
 use Dotenv\Util\Regex;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\Report\Xml\Report;
 
@@ -28,30 +30,52 @@ class ReporteMovimientoController extends Controller
 
     public function store(Request $request)
     {
-        $validateData = $request->validate([
-            'ProductoID' => 'required',
-            'UsuarioID' => 'required',
-            'DeleOrigen' => 'required',
-            'DeleDestino' => 'required',
-            'DeptoOrigen' => 'required',
-            'DeptoDestino' => 'required',
-            'TipoMovID' => 'required',
-            'FechaMov' => 'required'
+        $validator = Validator::make($request->all(), [
+            'ProductoID' => 'required|exists:Productos,ProductoID',
+            'UsuarioID' => 'required|exists:Usuario,UsuarioID',
+            'TipoMovimiento' => 'required|string',
+            'FechaMov' => 'required|date',
+            'DeleOrigen' => 'nullable|exists:Delegaciones,DelegacionID',
+            'DeleDestino' => 'nullable|exists:Delegaciones,DelegacionID',
+            'DeptoOrigen' => 'nullable|exists:Departamentos,DeptoID',
+            'DeptoDestino' => 'nullable|exists:Departamentos,DeptoID',
         ]);
 
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $tipoMovimiento = TipoMovimiento::where('Descripcion', $request->TipoMovimiento)->first();
+
+        if (!$tipoMovimiento) {
+            return response()->json(['message' => 'Tipo Movimiento no valido'], 400);
+        }
+
+        DB::beginTransaction();
         try {
-            $Reporte = ReporteMovimiento::create($validateData);
-            $data = [
-                'Reporte' => $Reporte,
-                'message' => 'Reporte creado correctamente',
-                'status' => 200
-            ];
+            $movimiento = ReporteMovimiento::create([
+                'ProductoID' => $request->ProductoID,
+                'UsuarioID' => $request->UsuarioID,
+                'TipoMovID' => $tipoMovimiento->TipoMovID,
+                'FechaMov' => $request->FechaMov,
+                'DeleOrigen' => $request->DeleOrigen,
+                'DeleDestino' => $request->DeleDestino,
+                'DeptoOrigen' => $request->DeptoOrigen,
+                'DeptoDestino' => $request->DeptoDestino
+            ]);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Movimiento registrado exitosamente',
+                'data' => $movimiento
+            ], 201);
         } catch (\Exception $e) {
-            $data = [
-                'message' => 'Error al crear el reporte: ' . $e->getMessage(),
-                'status' => 404
-            ];
-            return response()->json($data, 404);
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Error al registrar el movimiento',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 

@@ -16,11 +16,13 @@ create table Productos (
 	ProductoID int auto_increment not null primary key,
     NumeroControl varchar (30),
     NumeroSerie varchar (30),
-    Descripcion varchar (300),
+    Descripcion varchar (500),
     Modelo varchar (50),
     Categoria varchar (30),
     Factura varchar (30),
     Cantidad int,
+    FechaAlta date not null,
+    FechaBaja date,
     Valor decimal (10,2)
 );
 
