@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../services/producto.service';
+import { Producto } from '../../models/producto.model';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-lista-productos',
-  templateUrl: './lista-productos.component.html',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
+  templateUrl: './lista-productos.component.html', // Ruta corregida (usa ./)
   styleUrls: ['./lista-productos.component.css']
 })
-
 export class ListaProductosComponent implements OnInit {
-  productos: any[] = [];
+  productos: Producto[] = [];
   loading: boolean = true;
 
   constructor(private productoservice: ProductoService) { }
@@ -19,7 +23,7 @@ export class ListaProductosComponent implements OnInit {
 
   cargarProductos() {
     this.productoservice.getProductos().subscribe({
-      next: (data) => {
+      next: (data: Producto[]) => { // Tipo explícito añadido
         this.productos = data;
         this.loading = false;
       },

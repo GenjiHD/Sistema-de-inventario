@@ -3,8 +3,6 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Http\Middleware\CheckAdministrador;
-use App\Http\Middleware\CheckRegistros;
 
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -15,8 +13,6 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append(CheckAdministrador::class);
-        $middleware->append(CheckRegistros::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

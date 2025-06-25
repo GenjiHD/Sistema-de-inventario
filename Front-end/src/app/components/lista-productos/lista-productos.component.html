@@ -14,20 +14,29 @@
   <table *ngIf="!loading && productos.length > 0" class="table table-striped">
     <thead>
       <tr>
+        <th>ID</th>
         <th>N. Control</th>
-        <th>Descripcion</th>
+        <th>N. Serie</th>
+        <th>Descripción</th>
         <th>Modelo</th>
-        <th>Categoria</th>
+        <th>Marca</th>
+        <th>Categoría</th>
+        <th>Valor</th>
+        <th>Fecha Alta</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngIf="let producto of productos">
+      <tr *ngFor="let producto of productos">
+        <td>{{ producto.ProductoID }}</td>
         <td>{{ producto.NumeroControl }}</td>
-        <td>{{ producto.NumeroSerie }}</td>
+        <td>{{ producto.NumeroSerie || 'N/A' }}</td>
         <td>{{ producto.Descripcion }}</td>
         <td>{{ producto.Modelo }}</td>
+        <td>{{ producto.Marca }}</td>
         <td>{{ producto.Categoria }}</td>
+        <td>{{ producto.Valor | currency }}</td>
+        <td>{{ producto.FechaAlta | date:'shortDate' }}</td>
         <td>
           <button class="btn btn-sm btn-info">Editar</button>
           <button class="btn btn-sm btn-danger ms-2">Eliminar</button>

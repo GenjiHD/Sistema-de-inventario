@@ -14,6 +14,7 @@ use App\Http\Controllers\UsuarioController;
 use App\Http\Middleware\CheckAdministrador;
 use App\Http\Middleware\CheckRegistros;
 
+
 // Rutas para los productos
 
 Route::get('/productos', [ProductoController::class, 'index']);
