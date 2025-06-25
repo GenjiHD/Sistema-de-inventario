@@ -1,0 +1,38 @@
+<div class="container mt-4">
+  <h2>Lista de Productos</h2>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && productos.length === 0" class="alert alert-warning">
+    No hay productos registrados
+  </div>
+
+  <table *ngIf="!loading && productos.length > 0" class="table table-striped">
+    <thead>
+      <tr>
+        <th>N. Control</th>
+        <th>Descripcion</th>
+        <th>Modelo</th>
+        <th>Categoria</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="let producto of productos">
+        <td>{{ producto.NumeroControl }}</td>
+        <td>{{ producto.NumeroSerie }}</td>
+        <td>{{ producto.Descripcion }}</td>
+        <td>{{ producto.Modelo }}</td>
+        <td>{{ producto.Categoria }}</td>
+        <td>
+          <button class="btn btn-sm btn-info">Editar</button>
+          <button class="btn btn-sm btn-danger ms-2">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
