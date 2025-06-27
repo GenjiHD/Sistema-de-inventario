@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../services/producto.service';
 import { Producto } from '../../models/producto.model';
 import { CommonModule } from '@angular/common';
@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-lista-productos',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './lista-productos.component.html', // Ruta corregida (usa ./)
+  templateUrl: './lista-productos.component.html',
   styleUrls: ['./lista-productos.component.css']
 })
 export class ListaProductosComponent implements OnInit {
@@ -23,7 +23,7 @@ export class ListaProductosComponent implements OnInit {
 
   cargarProductos() {
     this.productoservice.getProductos().subscribe({
-      next: (data: Producto[]) => { // Tipo explícito añadido
+      next: (data: Producto[]) => {
         this.productos = data;
         this.loading = false;
       },
@@ -33,4 +33,19 @@ export class ListaProductosComponent implements OnInit {
       }
     });
   }
+
+  onFechaBajaChange(producto: Producto, nuevaFecha: string) {
+    const fecha = nuevaFecha ? nuevaFecha : null;
+    producto.FechaBaja = fecha;
+
+    this.productoservice.updateProducto(producto).subscribe({
+      next: () => {
+        console.log('Fecha de baja actualizada');
+      },
+      error: (err) => {
+        console.error('Error al actualizar fecha de baja:', err);
+      }
+    });
+  }
 }
+

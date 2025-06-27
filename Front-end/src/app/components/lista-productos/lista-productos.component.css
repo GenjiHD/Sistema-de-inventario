@@ -1,8 +1,71 @@
+/* Estilo del encabezado */
 .table th {
   background-color: #343a40;
   color: white;
 }
 
-.btn-sm {
+/* Sin bordes en tabla */
+.table,
+.table th,
+.table td {
+  border: none;
+}
+
+/* Fila en rojo si hay FechaBaja */
+.table-danger {
+  background-color: #f8b5bb !important;
+  /* rojo más brillante */
+}
+
+/* Hover en toda la fila */
+.table-hover tbody tr:hover {
+  background-color: #cfe2ff !important;
+  /* azul claro y brillante */
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Botones simétricos, redondeados y con íconos */
+td .btn-sm {
+  min-width: 90px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.875rem;
+  border-radius: 0.5rem;
+  /* esquinas redondeadas */
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Botón Editar - Verde brillante */
+.btn-success {
+  background-color: #38c172 !important;
+  /* verde más vivo */
+  border-color: #38c172 !important;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #2fa360 !important;
+  border-color: #2fa360 !important;
+  transform: scale(1.05);
+}
+
+/* Estilos para input date dentro de la tabla */
+table input[type="date"] {
+  width: 130px;
   padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.3rem;
+  border: 1px solid #ced4da;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+table input[type="date"]:focus {
+  border-color: #38c172;
+  /* verde brillante */
+  box-shadow: 0 0 0 0.2rem rgba(56, 193, 114, 0.25);
+  outline: none;
 }
