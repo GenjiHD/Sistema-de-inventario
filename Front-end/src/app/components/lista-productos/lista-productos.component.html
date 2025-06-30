@@ -11,7 +11,7 @@
     No hay productos registrados
   </div>
 
-  <table *ngIf="!loading && productos.length > 0" class="table table-hover table-striped">
+  <table *ngIf="!loading && productos.length > 0" class="table table-hover">
     <thead>
       <tr>
         <th>N. Control</th>
@@ -26,10 +26,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr
-        *ngFor="let producto of productos"
-        [class.table-danger]="producto.FechaBaja"
-      >
+      <tr *ngFor="let producto of productos"
+          [class.table-danger]="producto.FechaBaja"
+          class="align-middle">
         <td>{{ producto.NumeroControl }}</td>
         <td>{{ producto.NumeroSerie || 'N/A' }}</td>
         <td>{{ producto.Descripcion }}</td>
@@ -38,17 +37,16 @@
         <td>{{ producto.Valor | currency }}</td>
         <td>{{ producto.FechaAlta | date:'shortDate' }}</td>
         <td>
-  <input
-    type="date"
-    class="form-control form-control-sm"
-    [value]="producto.FechaBaja ? (producto.FechaBaja | date:'yyyy-MM-dd') : ''"
-    #fechaInput
-    (change)="onFechaBajaChange(producto, fechaInput.value)"
-  />
-</td>
-
+          <ng-container *ngIf="producto.FechaBaja; else sinAsignar">
+            {{ producto.FechaBaja | date:'shortDate' }}
+          </ng-container>
+          <ng-template #sinAsignar>
+            <span class="text-muted">Sin asignar</span>
+          </ng-template>
+        </td>
         <td>
-          <button class="btn btn-sm btn-success d-flex align-items-center justify-content-center gap-1">
+          <button class="btn btn-sm btn-success d-flex align-items-center justify-content-center gap-1"
+                  (click)="editarProducto(producto)">
             <i class="bi bi-pencil-fill"></i>
             Editar
           </button>

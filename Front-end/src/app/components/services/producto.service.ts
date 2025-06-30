@@ -16,13 +16,17 @@ export class ProductoService {
   }
 
   updateProducto(producto: Producto): Observable<Producto> {
-      const url = `${this.apiUrl}/${producto.ID}`;
+    const url = `${this.apiUrl}/${producto.ProductoID}`;
 
     const body = {
-      FechaBaja: producto.FechaBaja || null,
+      NumeroControl: producto.NumeroControl,
+      NumeroSerie: producto.NumeroSerie,
+      Descripcion: producto.Descripcion,
+      Marca: producto.Marca,
+      Modelo: producto.Modelo,
+      Valor: producto.Valor,
+      FechaAlta: producto.FechaAlta
     };
-
     return this.http.put<Producto>(url, body);
-  }
 }
 

@@ -11,6 +11,12 @@
   border: none;
 }
 
+/* Línea horizontal entre filas */
+.table tbody tr:not(:last-child) {
+  border-bottom: 1px solid #dee2e6;
+  /* color Bootstrap estándar */
+}
+
 /* Fila en rojo si hay FechaBaja */
 .table-danger {
   background-color: #f8b5bb !important;

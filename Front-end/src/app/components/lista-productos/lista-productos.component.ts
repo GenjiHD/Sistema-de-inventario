@@ -1,4 +1,4 @@
-  import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ProductoService } from '../services/producto.service';
 import { Producto } from '../../models/producto.model';
 import { CommonModule } from '@angular/common';
@@ -46,6 +46,31 @@ export class ListaProductosComponent implements OnInit {
         console.error('Error al actualizar fecha de baja:', err);
       }
     });
+  }
+
+  editarProducto(producto: Producto): void {
+    this.productoEditado = {...producto};
+    this.modalVisible = true;
+  }
+
+  cerrarModal(): void {
+    this.modalVisible = false;
+    this.productoEditado = null;
+  }
+
+  guardarCambios(): void {
+    if (this.productoEditado) {
+      this.productoservice.updateProducto(this.productoEditado).subscribe({
+        next: () => {
+          console.log('Los datos del producto han sido actulizadoso=');
+          this.cargarProductos();
+          this.cerrarModal();
+        },
+        error: (err) => {
+          console.error('Error al intentar actualizar los datos del producto: ', err);
+        }
+      });
+    }
   }
 }
 
