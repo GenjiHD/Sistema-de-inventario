@@ -28,5 +28,6 @@ export class ProductoService {
       FechaAlta: producto.FechaAlta
     };
     return this.http.put<Producto>(url, body);
+  }
 }
 

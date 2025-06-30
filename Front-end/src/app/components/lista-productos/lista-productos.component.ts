@@ -3,11 +3,12 @@ import { ProductoService } from '../services/producto.service';
 import { Producto } from '../../models/producto.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms'; // necesario para ngModel
 
 @Component({
   selector: 'app-lista-productos',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './lista-productos.component.html',
   styleUrls: ['./lista-productos.component.css']
 })
@@ -15,7 +16,11 @@ export class ListaProductosComponent implements OnInit {
   productos: Producto[] = [];
   loading: boolean = true;
 
-  constructor(private productoservice: ProductoService) { }
+  // ✅ propiedades para el modal
+  modalVisible: boolean = false;
+  productoEditando: Producto | null = null;
+
+  constructor(private productoservice: ProductoService) {}
 
   ngOnInit(): void {
     this.cargarProductos();
@@ -49,25 +54,25 @@ export class ListaProductosComponent implements OnInit {
   }
 
   editarProducto(producto: Producto): void {
-    this.productoEditado = {...producto};
+    this.productoEditando = { ...producto }; // clon del producto
     this.modalVisible = true;
   }
 
   cerrarModal(): void {
     this.modalVisible = false;
-    this.productoEditado = null;
+    this.productoEditando = null;
   }
 
   guardarCambios(): void {
-    if (this.productoEditado) {
-      this.productoservice.updateProducto(this.productoEditado).subscribe({
+    if (this.productoEditando) {
+      this.productoservice.updateProducto(this.productoEditando).subscribe({
         next: () => {
-          console.log('Los datos del producto han sido actulizadoso=');
+          console.log('Producto actualizado');
           this.cargarProductos();
           this.cerrarModal();
         },
         error: (err) => {
-          console.error('Error al intentar actualizar los datos del producto: ', err);
+          console.error('Error al actualizar producto:', err);
         }
       });
     }
