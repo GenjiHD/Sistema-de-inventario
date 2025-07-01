@@ -3,12 +3,13 @@ import { ProductoService } from '../services/producto.service';
 import { Producto } from '../../models/producto.model';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms'; // necesario para ngModel
+import { FormsModule } from '@angular/forms';
+import { EditarProductoComponent } from '../editar-productos/editar-productos.component';
 
 @Component({
   selector: 'app-lista-productos',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule,],
   templateUrl: './lista-productos.component.html',
   styleUrls: ['./lista-productos.component.css']
 })
@@ -16,7 +17,6 @@ export class ListaProductosComponent implements OnInit {
   productos: Producto[] = [];
   loading: boolean = true;
 
-  // ✅ propiedades para el modal
   modalVisible: boolean = false;
   productoEditando: Producto | null = null;
 
@@ -63,19 +63,17 @@ export class ListaProductosComponent implements OnInit {
     this.productoEditando = null;
   }
 
-  guardarCambios(): void {
-    if (this.productoEditando) {
-      this.productoservice.updateProducto(this.productoEditando).subscribe({
-        next: () => {
-          console.log('Producto actualizado');
-          this.cargarProductos();
-          this.cerrarModal();
-        },
-        error: (err) => {
-          console.error('Error al actualizar producto:', err);
-        }
-      });
-    }
+  guardarCambiosDesdeModal(productoActualizado: Producto): void {
+    this.productoservice.updateProducto(productoActualizado).subscribe({
+      next: () => {
+        console.log('Producto actualizado');
+        this.cargarProductos();
+        this.cerrarModal();
+      },
+      error: (err) => {
+        console.error('Error al actualizar producto: ', err);
+      }
+    });
   }
 }
 

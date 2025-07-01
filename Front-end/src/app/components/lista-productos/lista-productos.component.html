@@ -54,5 +54,13 @@
       </tr>
     </tbody>
   </table>
+
+  <!-- MODAL SEPARADO -->
+  <app-editar-producto
+    *ngIf="modalVisible"
+    [producto]="productoEditando"
+    (guardar)="guardarCambiosDesdeModal($event)"
+    (cancelar)="cerrarModal()">
+  </app-editar-producto>
 </div>
 

@@ -1,0 +1,11 @@
+<<div class="modal" *ngIf="producto">
+  <h3>Editar Producto</h3>
+  <label>Descripcion:</label>
+  <input [(ngModel)]="producto.Descripcion" />
+
+  <label>Modelo:</label>
+  <input [(ngModel)]="producto.Modelo" />
+
+  <button onclick="onGuardar()">Guardar</button>
+  <button onclick="onCancelar()">Cancelar</button>
+  </div>
