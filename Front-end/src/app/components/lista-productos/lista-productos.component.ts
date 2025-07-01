@@ -9,7 +9,7 @@ import { EditarProductoComponent } from '../editar-productos/editar-productos.co
 @Component({
   selector: 'app-lista-productos',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule,],
+  imports: [CommonModule, RouterModule, FormsModule, EditarProductoComponent],
   templateUrl: './lista-productos.component.html',
   styleUrls: ['./lista-productos.component.css']
 })

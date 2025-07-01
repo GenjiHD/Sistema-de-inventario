@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./editar-productos.component.css']
 })
 
-export class EditarProducotComponent {
+export class EditarProductoComponent {
   @Input() producto: Producto | null = null;
   @Output() guardar = new EventEmitter<Producto>();
   @Output() cancelar = new EventEmitter<void>();
