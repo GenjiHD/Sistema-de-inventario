@@ -2,17 +2,72 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 1040;
 }
 
-.modal {
+.custom-modal {
   position: fixed;
-  top: 10%;
+  top: 5vh;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1050;
+  width: 95%;
+  max-width: 900px;
+  max-height: 1600px;
 }
 
+.stylish-card {
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+  padding: 2.5rem;
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.stylish-input {
+  font-size: 1.05rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid #ced4da;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+}
+
+.stylish-input:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.btn {
+  font-size: 1.05rem;
+  padding: 0.6rem 1.5rem;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Mejor comportamiento en pantallas grandes */
+@media (min-width: 992px) {
+  .custom-modal {
+    top: 5vh;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
