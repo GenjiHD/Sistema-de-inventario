@@ -1,37 +1,35 @@
-/* Estilo del encabezado */
+/* --- Estilo del encabezado de la tabla --- */
 .table th {
-  background-color: #343a40;
+  background-color: #343a40; /* gris oscuro */
   color: white;
+  text-align: center;
 }
 
-/* Sin bordes en tabla */
+/* --- Quitar bordes --- */
 .table,
 .table th,
 .table td {
   border: none;
 }
 
-/* Línea horizontal entre filas */
+/* --- Línea entre filas (excepto la última) --- */
 .table tbody tr:not(:last-child) {
   border-bottom: 1px solid #dee2e6;
-  /* color Bootstrap estándar */
 }
 
-/* Fila en rojo si hay FechaBaja */
+/* --- Fila con baja lógica (resaltada) --- */
 .table-danger {
   background-color: #f8b5bb !important;
-  /* rojo más brillante */
 }
 
-/* Hover en toda la fila */
+/* --- Hover para filas --- */
 .table-hover tbody tr:hover {
   background-color: #cfe2ff !important;
-  /* azul claro y brillante */
   cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
 
-/* Botones simétricos, redondeados y con íconos */
+/* --- Botones estilizados dentro de la tabla --- */
 td .btn-sm {
   min-width: 90px;
   display: inline-flex;
@@ -41,14 +39,12 @@ td .btn-sm {
   padding: 0.4rem 0.8rem;
   font-size: 0.875rem;
   border-radius: 0.5rem;
-  /* esquinas redondeadas */
   transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
-/* Botón Editar - Verde brillante */
+/* --- Botón Editar verde personalizado --- */
 .btn-success {
   background-color: #38c172 !important;
-  /* verde más vivo */
   border-color: #38c172 !important;
   color: white;
 }
@@ -59,7 +55,7 @@ td .btn-sm {
   transform: scale(1.05);
 }
 
-/* Estilos para input date dentro de la tabla */
+/* --- Inputs tipo date estilizados --- */
 table input[type="date"] {
   width: 130px;
   padding: 0.25rem 0.5rem;
@@ -71,7 +67,34 @@ table input[type="date"] {
 
 table input[type="date"]:focus {
   border-color: #38c172;
-  /* verde brillante */
   box-shadow: 0 0 0 0.2rem rgba(56, 193, 114, 0.25);
   outline: none;
 }
+
+/* --- Forzar uso completo del ancho en tabla con celdas bien distribuidas --- */
+.table {
+  table-layout: fixed;
+  width: 100%;
+  word-wrap: break-word;
+}
+
+/* --- Opcional: prevenir que columnas largas descuadren el layout --- */
+td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Ajustes para responsividad móvil opcional --- */
+@media (max-width: 768px) {
+  th,
+  td {
+    font-size: 0.85rem;
+  }
+
+  .btn-sm {
+    min-width: auto;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
