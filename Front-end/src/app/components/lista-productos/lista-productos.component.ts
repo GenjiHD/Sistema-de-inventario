@@ -15,6 +15,10 @@ import { EditarProductoComponent } from '../editar-productos/editar-productos.co
 })
 export class ListaProductosComponent implements OnInit {
   productos: Producto[] = [];
+
+  paginaActual: number = 1;
+  productosPorPagina: number = 50;
+
   loading: boolean = true;
 
   modalVisible: boolean = false;
@@ -26,10 +30,43 @@ export class ListaProductosComponent implements OnInit {
     this.cargarProductos();
   }
 
-  cargarProductos() {
+  get totalPaginas(): number {
+    return Math.ceil(this.productos.length / this.productosPorPagina);
+  }
+
+  get productosVisibles(): Producto[] {
+    const inicio = (this.paginaActual - 1) * this.productosPorPagina;
+    const fin = inicio + this.productosPorPagina;
+    return this.productos.slice(inicio, fin);
+  }
+
+  get paginasVisibles(): number[] {
+    const total = this.totalPaginas;
+    const actual = this.paginaActual;
+    const rango = 2;
+
+    const inicio = Math.max(1, actual - rango);
+    const fin = Math.min(total, actual + rango);
+
+    const paginas: number[] = [];
+    for (let i = inicio; i <= fin; i++) {
+      paginas.push(i);
+    }
+    return paginas;
+  }
+
+  cambiarPagina(pagina: number): void {
+    if (pagina >= 1 && pagina <= this.totalPaginas) {
+      this.paginaActual = pagina;
+    }
+  }
+
+  cargarProductos(): void {
+    this.loading = true;
     this.productoservice.getProductos().subscribe({
       next: (data: Producto[]) => {
         this.productos = data;
+        this.paginaActual = 1;
         this.loading = false;
       },
       error: (error) => {
@@ -39,7 +76,7 @@ export class ListaProductosComponent implements OnInit {
     });
   }
 
-  onFechaBajaChange(producto: Producto, nuevaFecha: string) {
+  onFechaBajaChange(producto: Producto, nuevaFecha: string): void {
     const fecha = nuevaFecha ? nuevaFecha : null;
     producto.FechaBaja = fecha;
 

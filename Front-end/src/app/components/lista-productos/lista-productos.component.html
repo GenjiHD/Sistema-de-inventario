@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<div class="container-fluid mt-4">
   <h2>Lista de Productos</h2>
 
   <div *ngIf="loading" class="text-center">
@@ -11,51 +11,83 @@
     No hay productos registrados
   </div>
 
-  <table *ngIf="!loading && productos.length > 0" class="table table-hover">
-    <thead>
-      <tr>
-        <th>N. Control</th>
-        <th>N. Serie</th>
-        <th>Descripción</th>
-        <th>Modelo</th>
-        <th>Marca</th>
-        <th>Valor</th>
-        <th>Fecha Alta</th>
-        <th>Fecha Baja</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let producto of productos"
-          [class.table-danger]="producto.FechaBaja"
-          class="align-middle">
-        <td>{{ producto.NumeroControl }}</td>
-        <td>{{ producto.NumeroSerie || 'N/A' }}</td>
-        <td>{{ producto.Descripcion }}</td>
-        <td>{{ producto.Modelo }}</td>
-        <td>{{ producto.Marca }}</td>
-        <td>{{ producto.Valor | currency }}</td>
-        <td>{{ producto.FechaAlta | date:'shortDate' }}</td>
-        <td>
-          <ng-container *ngIf="producto.FechaBaja; else sinAsignar">
-            {{ producto.FechaBaja | date:'shortDate' }}
-          </ng-container>
-          <ng-template #sinAsignar>
-            <span class="text-muted">Sin asignar</span>
-          </ng-template>
-        </td>
-        <td>
-          <button class="btn btn-sm btn-success d-flex align-items-center justify-content-center gap-1"
-                  (click)="editarProducto(producto)">
-            <i class="bi bi-pencil-fill"></i>
-            Editar
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Tabla con scroll horizontal -->
+  <div class="table-responsive" *ngIf="!loading && productos.length > 0">
+    <table class="table table-hover table-bordered w-100 table-layout-fixed">
+      <thead>
+        <tr>
+          <th>N. Control</th>
+          <th>N. Serie</th>
+          <th>Descripción</th>
+          <th>Modelo</th>
+          <th>Marca</th>
+          <th>Valor</th>
+          <th>Fecha Alta</th>
+          <th>Fecha Baja</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let producto of productosVisibles"
+            [class.table-danger]="producto.FechaBaja"
+            class="align-middle">
+          <td>{{ producto.NumeroControl }}</td>
+          <td>{{ producto.NumeroSerie || 'N/A' }}</td>
+          <td>{{ producto.Descripcion }}</td>
+          <td>{{ producto.Modelo }}</td>
+          <td>{{ producto.Marca }}</td>
+          <td>{{ producto.Valor | currency }}</td>
+          <td>{{ producto.FechaAlta | date:'shortDate' }}</td>
+          <td>
+            <ng-container *ngIf="producto.FechaBaja; else sinAsignar">
+              {{ producto.FechaBaja | date:'shortDate' }}
+            </ng-container>
+            <ng-template #sinAsignar>
+              <span class="text-muted">Sin asignar</span>
+            </ng-template>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-success d-flex align-items-center justify-content-center gap-1"
+                    (click)="editarProducto(producto)">
+              <i class="bi bi-pencil-fill"></i>
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <!-- MODAL SEPARADO -->
+  <!-- PAGINACIÓN -->
+  <div *ngIf="totalPaginas > 1" class="d-flex justify-content-center mt-4">
+    <div class="btn-group" role="group" aria-label="Paginación">
+      <button
+        class="btn btn-outline-secondary"
+        [disabled]="paginaActual === 1"
+        (click)="cambiarPagina(paginaActual - 1)">
+        &laquo; Anterior
+      </button>
+
+      <ng-container *ngFor="let pagina of paginasVisibles">
+        <button
+          class="btn"
+          [class.btn-outline-secondary]="pagina !== paginaActual"
+          [class.btn-primary]="pagina === paginaActual"
+          (click)="cambiarPagina(pagina)">
+          {{ pagina }}
+        </button>
+      </ng-container>
+
+      <button
+        class="btn btn-outline-secondary"
+        [disabled]="paginaActual === totalPaginas"
+        (click)="cambiarPagina(paginaActual + 1)">
+        Siguiente &raquo;
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL -->
   <app-editar-producto
     *ngIf="modalVisible"
     [producto]="productoEditando"
