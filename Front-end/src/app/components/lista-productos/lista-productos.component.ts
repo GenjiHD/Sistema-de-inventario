@@ -80,7 +80,7 @@ export class ListaProductosComponent implements OnInit {
     const fecha = nuevaFecha ? nuevaFecha : null;
     producto.FechaBaja = fecha;
 
-    this.productoservice.updateProducto(producto).subscribe({
+    this.productoservice.updateProductos(producto).subscribe({
       next: () => {
         console.log('Fecha de baja actualizada');
       },
@@ -101,7 +101,7 @@ export class ListaProductosComponent implements OnInit {
   }
 
   guardarCambiosDesdeModal(productoActualizado: Producto): void {
-    this.productoservice.updateProducto(productoActualizado).subscribe({
+    this.productoservice.updateProductos(productoActualizado).subscribe({
       next: () => {
         console.log('Producto actualizado');
         this.cargarProductos();
