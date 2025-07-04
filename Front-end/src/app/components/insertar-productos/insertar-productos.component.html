@@ -1,68 +1,71 @@
 <div class="modal-backdrop fade show"></div>
 
 <div class="custom-modal d-block">
-  <div class="card shadow-lg rounded-4 p-4 stylish-card" style="max-height: 90vh; overflow-y: auto;">
+  <div class="card shadow-lg rounded-4 p-4 stylish-card">
     <h4 class="text-center mb-4">
       <i class="bi bi-plus-circle me-2"></i>Insertar Producto
     </h4>
 
     <div *ngIf="nuevoProducto" class="form-container">
 
+      <!-- FORMULARIO -->
+
       <div class="form-section">
-        <label class="form-label">Número de Control</label>
-        <input class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.NumeroControl" />
+        <label for="numeroControl" class="form-label">Número de Control</label>
+        <input id="numeroControl" class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.NumeroControl" />
       </div>
 
       <div class="form-section">
-        <label class="form-label">Número de Serie</label>
-        <input class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.NumeroSerie" />
+        <label for="numeroSerie" class="form-label">Número de Serie</label>
+        <input id="numeroSerie" class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.NumeroSerie" />
       </div>
 
       <div class="form-section">
-        <label class="form-label">Descripción</label>
-        <input class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.Descripcion" />
+        <label for="descripcion" class="form-label">Descripción</label>
+        <input id="descripcion" class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.Descripcion" />
       </div>
 
       <div class="form-section">
-        <label class="form-label">Modelo</label>
-        <input class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.Modelo" />
+        <label for="modelo" class="form-label">Modelo</label>
+        <input id="modelo" class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.Modelo" />
       </div>
 
       <div class="form-section">
-        <label class="form-label">Marca</label>
-        <input class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.Marca" />
+        <label for="marca" class="form-label">Marca</label>
+        <input id="marca" class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.Marca" />
       </div>
 
       <div class="form-section">
-        <label class="form-label">Categoría</label>
-        <input class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.Categoria" />
+        <label for="categoria" class="form-label">Categoría</label>
+        <input id="categoria" class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.Categoria" />
       </div>
 
       <div class="form-section">
-        <label class="form-label">Factura</label>
-        <input class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.Factura" />
+        <label for="factura" class="form-label">Factura</label>
+        <input id="factura" class="form-control stylish-input" type="text" [(ngModel)]="nuevoProducto.Factura" />
       </div>
 
       <div class="form-section">
-        <label class="form-label">Cantidad</label>
-        <input class="form-control stylish-input" type="number" [(ngModel)]="nuevoProducto.Cantidad" />
+        <label for="cantidad" class="form-label">Cantidad</label>
+        <input id="cantidad" class="form-control stylish-input" type="number" [(ngModel)]="nuevoProducto.Cantidad" />
       </div>
 
       <div class="form-section">
-        <label class="form-label">Fecha de Alta</label>
-        <input class="form-control stylish-input" type="date" [(ngModel)]="nuevoProducto.FechaAlta" />
+        <label for="fechaAlta" class="form-label">Fecha de Alta</label>
+        <input id="fechaAlta" class="form-control stylish-input" type="date" [(ngModel)]="nuevoProducto.FechaAlta" />
       </div>
 
       <div class="form-section">
-        <label class="form-label">Fecha de Baja</label>
-        <input class="form-control stylish-input" type="date" [(ngModel)]="nuevoProducto.FechaBaja" />
+        <label for="fechaBaja" class="form-label">Fecha de Baja</label>
+        <input id="fechaBaja" class="form-control stylish-input" type="date" [(ngModel)]="nuevoProducto.FechaBaja" />
       </div>
 
       <div class="form-section">
-        <label class="form-label">Valor</label>
-        <input class="form-control stylish-input" type="number" [(ngModel)]="nuevoProducto.Valor" />
+        <label for="valor" class="form-label">Valor</label>
+        <input id="valor" class="form-control stylish-input" type="number" [(ngModel)]="nuevoProducto.Valor" />
       </div>
 
+      <!-- BOTONES -->
       <div class="d-flex justify-content-end gap-3 mt-4">
         <button class="btn btn-success px-4" (click)="onGuardar()">💾 Guardar</button>
         <button class="btn btn-outline-secondary px-4" (click)="onCancelar()">✖ Cancelar</button>
@@ -70,3 +73,4 @@
     </div>
   </div>
 </div>
+
