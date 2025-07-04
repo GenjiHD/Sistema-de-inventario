@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { EditarProductoComponent } from '../editar-productos/editar-productos.component';
+import { InsertarProductosComponent } from '../insertar-productos/insertar-productos.component';
 
 @Component({
   selector: 'app-lista-productos',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, EditarProductoComponent],
+  imports: [CommonModule, RouterModule, FormsModule, EditarProductoComponent, InsertarProductosComponent],
   templateUrl: './lista-productos.component.html',
   styleUrls: ['./lista-productos.component.css']
 })
@@ -20,6 +21,9 @@ export class ListaProductosComponent implements OnInit {
   productosPorPagina: number = 50;
 
   loading: boolean = true;
+
+  modalInsertarVisible: boolean = false;
+
 
   modalVisible: boolean = false;
   productoEditando: Producto | null = null;
@@ -32,6 +36,14 @@ export class ListaProductosComponent implements OnInit {
 
   get totalPaginas(): number {
     return Math.ceil(this.productos.length / this.productosPorPagina);
+  }
+
+  abrirFormularioInsertar(): void {
+    this.modalInsertarVisible = true;
+  }
+
+  cerrarModalInsertar(): void {
+    this.modalInsertarVisible = false;
   }
 
   get productosVisibles(): Producto[] {
@@ -109,6 +121,19 @@ export class ListaProductosComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al actualizar producto: ', err);
+      }
+    });
+  }
+
+  guardarNuevoProducto(nuevoProducto: Producto): void {
+    this.productoservice.createProductos(nuevoProducto).subscribe({
+      next: () => {
+        console.log('Producto insertardo correctamente');
+        this.cargarProductos();
+        this.cerrarModalInsertar();
+      },
+      error: (err: any) => {
+        console.error('Error al insertar el producto: ', err);
       }
     });
   }

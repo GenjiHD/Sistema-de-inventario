@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { Producto } from '../../models/producto.model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './insertar-productos.component.html',
-  styleUrl: './insertar-productos.component.scss',
+  styleUrl: './insertar-productos.component.css',
 })
 export class InsertarProductosComponent {
   @Output() guardar = new EventEmitter<Producto>();

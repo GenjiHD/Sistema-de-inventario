@@ -1,5 +1,5 @@
 export interface Producto {
-  ProductoID: number;
+  ProductoID?: number;
   NumeroControl: string;
   NumeroSerie: string | null;
   Descripcion: string;

@@ -1,5 +1,13 @@
 <div class="container-fluid mt-4">
-  <h2>Lista de Productos</h2>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Lista de Productos</h2>
+    <!-- Botón Insertar -->
+    <button class="btn btn-primary d-flex align-items-center gap-2"
+            (click)="abrirFormularioInsertar()">
+      <i class="bi bi-plus-circle-fill"></i>
+      Insertar Producto
+    </button>
+  </div>
 
   <div *ngIf="loading" class="text-center">
     <div class="spinner-border text-primary" role="status">
@@ -87,12 +95,18 @@
     </div>
   </div>
 
-  <!-- MODAL -->
+  <!-- MODALES -->
   <app-editar-producto
     *ngIf="modalVisible"
     [producto]="productoEditando"
     (guardar)="guardarCambiosDesdeModal($event)"
     (cancelar)="cerrarModal()">
   </app-editar-producto>
+
+  <app-insertar-productos
+    *ngIf="modalInsertarVisible"
+    (guardar)="guardarNuevoProducto($event)"
+    (cancelar)="cerrarModalInsertar()">
+  </app-insertar-productos>
 </div>
 
