@@ -2,10 +2,10 @@
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Lista de Productos</h2>
     <!-- Botón Insertar -->
-    <button class="btn btn-primary d-flex align-items-center gap-2"
+    <button class="btn btn-insertar"
             (click)="abrirFormularioInsertar()">
-      <i class="bi bi-plus-circle-fill"></i>
-      Insertar Producto
+      <i class="bi bi-plus-circle-fill fs-5"></i>
+      <span>Insertar Producto</span>
     </button>
   </div>
 
@@ -19,7 +19,6 @@
     No hay productos registrados
   </div>
 
-  <!-- Tabla amplia, con scroll horizontal si hace falta -->
   <div class="table-responsive" *ngIf="!loading && productos.length > 0">
     <table class="table table-hover w-100 table-layout-fixed">
       <thead>
@@ -66,7 +65,7 @@
     </table>
   </div>
 
-  <!-- PAGINACIÓN -->
+  <!-- Paginación -->
   <div *ngIf="totalPaginas > 1" class="d-flex justify-content-center mt-4">
     <div class="btn-group" role="group" aria-label="Paginación">
       <button
@@ -95,7 +94,7 @@
     </div>
   </div>
 
-  <!-- MODALES -->
+  <!-- Modales -->
   <app-editar-producto
     *ngIf="modalVisible"
     [producto]="productoEditando"
