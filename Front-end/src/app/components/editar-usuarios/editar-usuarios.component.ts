@@ -14,6 +14,7 @@ export class EditarUsuariosComponent {
   @Input() usuario: Usuarios | null = null;
   @Output() guardar = new EventEmitter<Usuarios>();
   @Output() cancelar = new EventEmitter<void>();
+  @Output() Baja = new EventEmitter<Usuarios>();
 
   onGuardar() {
     if (this.usuario) {
@@ -23,5 +24,11 @@ export class EditarUsuariosComponent {
 
   onCancelar() {
     this.cancelar.emit();
+  }
+
+  OnDarDeBaja() {
+    if (this.usuario) {
+      this.Baja.emit(this.usuario);
+    }
   }
 }

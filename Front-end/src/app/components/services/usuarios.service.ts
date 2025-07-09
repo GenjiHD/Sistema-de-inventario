@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Usuarios } from '../../models/usuarios.model';
 
 @Injectable {(
-  provide: 'root'
+  provideIn: 'root'
 )}
 
 export class UsuariosService {
@@ -21,7 +21,7 @@ export class UsuariosService {
   }
 
   updateUsuario(usuarios: Usuarios): Observable<Usuarios> {
-  const url = `${this.apiUrl}/${usuario.UsuarioID}`;
+  const url = `${this.apiUrl}/${usuarios.UsuarioID}`;
 
     const body = {
       Nombre: usuarios.Nombre,
@@ -30,5 +30,10 @@ export class UsuariosService {
       Estado: usuarios.Estado
     };
     return this.http.put<Usuarios>(url, body);
+  }
+
+  deactivateUsuarios(id: number): Observable<any> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.patch(url, {});
   }
 }

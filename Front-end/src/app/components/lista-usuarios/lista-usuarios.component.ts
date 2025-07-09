@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { UsuariosService } from '../services/usuarios.service';
-import { Usuarios } from '../../models/usuarios.model''
+import { Usuarios } from '../../models/usuarios.model';
+import { EditarUsuariosComponent } from '../editar-usuarios/editar-usuarios.component';
+import { InsertarUsuariosComponent } from '../insertar-usuarios/insertar-usuarios.component.';
 
 @Component({
   selector: 'app-lista-usuarios',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, EditarUsuariosComponent, InsertarUsuariosComponent],
   templateUrl: './lista-usuarios.component.html',
   styleUrl: './lista-usuarios.component.css',
 })
@@ -85,5 +87,20 @@ export class ListaUsuariosComponent {
         console.error('Error al crear el nuevo usuario: ', error);
       }
     });
+  }
+
+  darDeBajaUsuarios(usuario: Usuarios): void {
+    if (confirm(`Deseas dar de baja a este usuario {$usuario.Nombre}?`)) {
+      this.usuariosService.deactivateUsuarios(usuario.UsuarioID).subscribe({
+        next: () => {
+          console.log('El usuario ha sido dado de baja correctamente');
+          this.cargarUsuarios();
+          this.cerrarModal();
+        },
+        error: (error) => {
+          console.error('Error al dar de baja al usuario: ', error)
+        }
+      });
+    }
   }
 }
