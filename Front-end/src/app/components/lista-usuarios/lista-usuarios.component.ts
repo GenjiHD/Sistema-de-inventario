@@ -8,15 +8,20 @@ import { Usuarios } from '../../models/usuarios.model''
 @Component({
   selector: 'app-lista-usuarios',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './lista-usuarios.component.html',
-  styleUrl: './lista-usuarios.component.scss',
+  styleUrl: './lista-usuarios.component.css',
 })
 
 export class ListaUsuariosComponent {
   usuarios: Usuarios[] = [];
 
   loading: boolean = true;
+
+  modalInsertarVisible: boolean = false;
+
+  modalVisible: boolean = false;
+  usuarioEditado: Usuarios | null = null;
 
   constructor(private usuariosService: UsuariosService) {}
 
@@ -34,6 +39,50 @@ export class ListaUsuariosComponent {
       error: (error) => {
         console.error('Error al cargar los usuarios: ', error);
         this.loading = false;
+      }
+    });
+  }
+
+  editarUsuarios(usuarios: Usuarios): void {
+    this.usuarioEditado = { ...usuarios };
+    this.modalVisible = true;
+  }
+
+  cerrarModal(): void {
+    this.modalVisible = false;
+    this.usuarioEditado = null;
+  }
+
+  guardarNuevosDatos(usuarioActualizado: Usuarios): void {
+    this.usuariosService.updateUsuario(usuarioActualizado).subscribe({
+      next: () => {
+        console.log('Datos del usuario actualizados');
+        this.cargarUsuarios();
+        this.cerrarModal();
+      },
+      error: (error: any) => {
+        console.error('Error al actualizar los datos del usuario: ', error);
+      }
+    });
+  }
+
+  abrirFormularioInsertar(): void {
+    this.modalInsertarVisible = true;
+  }
+
+  cerrarModalInsertar(): void {
+    this.modalInsertarVisible = false;
+  }
+
+  guardarNuevoUsuario(nuevoUsuario: Usuarios): void {
+    this.usuariosService.createUsuario(nuevoUsuario).subscribe({
+      next: () => {
+        console.log('El usuario ha sido creado correctamente');
+        this.cargarUsuarios();
+        this.cerrarModalInsertar();
+      },
+      error: (error: any) => {
+        console.error('Error al crear el nuevo usuario: ', error);
       }
     });
   }
