@@ -8,10 +8,10 @@ import { Usuarios } from '../../models/usuarios.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './editar-usuarios.component.html',
-  styleUrl: './editar-usuarios.component.scss',
+  styleUrl: './editar-usuarios.component.css',
 })
 export class EditarUsuariosComponent {
-  @Input() usuario: Usuarios | null = null;
+  @Input() usuario!: Usuarios;
   @Output() guardar = new EventEmitter<Usuarios>();
   @Output() cancelar = new EventEmitter<void>();
   @Output() Baja = new EventEmitter<Usuarios>();
@@ -30,5 +30,11 @@ export class EditarUsuariosComponent {
     if (this.usuario) {
       this.Baja.emit(this.usuario);
     }
+  }
+
+  mostrarPassword = false;
+
+  togglePassword() {
+    this.mostrarPassword = !this.mostrarPassword;
   }
 }

@@ -28,4 +28,10 @@ export class InsertarUsuariosComponent {
   onCancelar(): void {
     this.cancelar.emit();
   }
+
+  mostrarPassword = false;
+
+  togglePassword() {
+    this.mostrarPassword = !this.mostrarPassword;
+  }
 }

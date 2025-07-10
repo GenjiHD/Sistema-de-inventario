@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { UsuariosService } from '../services/usuarios.service';
 import { Usuarios } from '../../models/usuarios.model';
 import { EditarUsuariosComponent } from '../editar-usuarios/editar-usuarios.component';
-import { InsertarUsuariosComponent } from '../insertar-usuarios/insertar-usuarios.component.';
+import { InsertarUsuariosComponent } from '../insertar-usuarios/insertar-usuarios.component';
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -23,11 +23,11 @@ export class ListaUsuariosComponent {
   modalInsertarVisible: boolean = false;
 
   modalVisible: boolean = false;
-  usuarioEditado: Usuarios | null = null;
+  usuarioEditado: Usuarios;
 
   constructor(private usuariosService: UsuariosService) {}
 
-  ng OnInit(): void {
+  ngOnInit(): void {
     this.cargarUsuarios();
   }
 

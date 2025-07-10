@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuarios } from '../../models/usuarios.model';
 
-@Injectable {(
-  provideIn: 'root'
-)}
+@Injectable({
+  providedIn: 'root'
+})
 
 export class UsuariosService {
   private apiUrl = 'http://127.0.0.1:8000/api/usuarios';
@@ -25,7 +25,7 @@ export class UsuariosService {
 
     const body = {
       Nombre: usuarios.Nombre,
-      Contraseña: usuarios.Contraseña,
+      Contrasena: usuarios.Contrasena,
       Puesto: usuarios.Puesto,
       Estado: usuarios.Estado
     };

@@ -1,1 +1,83 @@
-<p>lista-usuarios works!</p>
+<div class="container-fluid mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Lista de Usuarios</h2>
+    <button class="btn btn-insertar" (click)="abrirFormularioInsertar()">
+      <i class="bi bi-plus-circle-fill fs-5"></i>
+      <span>Insertar Usuario</span>
+    </button>
+  </div>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && usuarios.length === 0" class="alert alert-warning">
+    No hay usuarios registrados
+  </div>
+
+  <div class="table-responsive" *ngIf="!loading && usuarios.length > 0">
+    <table class="table table-hover w-100 table-layout-fixed">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Contraseña</th>
+          <th>Puesto</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuariosVisibles" [class.table-danger]="usuario.Estado === 0" class="align-middle">
+          <td>{{ usuario.Nombre }}</td>
+          <td>{{ '********' }}</td>
+          <td>{{ usuario.Puesto || 'N/A' }}</td>
+          <td>
+            <span [class.text-success]="usuario.Estado === 1" [class.text-danger]="usuario.Estado === 0">
+              {{ usuario.Estado === 1 ? 'Alta' : 'Baja' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-success d-flex align-items-center justify-content-center gap-1"
+              (click)="editarUsuario(usuario)">
+              <i class="bi bi-pencil-fill"></i>
+              Editar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div *ngIf="totalPaginas > 1" class="d-flex justify-content-center mt-4">
+    <div class="btn-group" role="group" aria-label="Paginación">
+      <button class="btn btn-outline-secondary" [disabled]="paginaActual === 1"
+        (click)="cambiarPagina(paginaActual - 1)">
+        &laquo; Anterior
+      </button>
+
+      <ng-container *ngFor="let pagina of paginasVisibles">
+        <button class="btn" [class.btn-outline-secondary]="pagina !== paginaActual"
+          [class.btn-primary]="pagina === paginaActual" (click)="cambiarPagina(pagina)">
+          {{ pagina }}
+        </button>
+      </ng-container>
+
+      <button class="btn btn-outline-secondary" [disabled]="paginaActual === totalPaginas"
+        (click)="cambiarPagina(paginaActual + 1)">
+        Siguiente &raquo;
+      </button>
+    </div>
+  </div>
+
+  <!-- Modales -->
+  <app-editar-usuario *ngIf="modalVisible" [usuario]="usuarioEditando" (guardar)="guardarCambiosDesdeModal($event)"
+    (cancelar)="cerrarModal()">
+  </app-editar-usuario>
+
+  <app-insertar-usuarios *ngIf="modalInsertarVisible" (guardar)="guardarNuevoUsuario($event)"
+    (cancelar)="cerrarModalInsertar()">
+  </app-insertar-usuarios>
+</div>
