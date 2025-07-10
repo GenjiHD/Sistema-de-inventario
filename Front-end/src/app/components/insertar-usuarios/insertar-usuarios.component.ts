@@ -14,11 +14,11 @@ export class InsertarUsuariosComponent {
   @Output() guardar = new EventEmitter<Usuarios>();
   @Output() cancelar = new EventEmitter<void>();
 
-  nuevoUsuario: Usuario = {
+  nuevoUsuario: Usuarios = {
     Nombre: '',
-    Contraseña: '',
+    Contrasena: '',
     Puesto: '',
-    Estado: boolean
+    Estado: true
   };
 
   onGuardar(): void {

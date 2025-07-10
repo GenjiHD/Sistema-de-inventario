@@ -29,18 +29,20 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let usuario of usuariosVisibles" [class.table-danger]="usuario.Estado === 0" class="align-middle">
+        <tr *ngFor="let usuario of usuariosVisibles"
+            [class.table-danger]="!usuario.Estado"
+            class="align-middle">
           <td>{{ usuario.Nombre }}</td>
-          <td>{{ '********' }}</td>
+          <td>********</td>
           <td>{{ usuario.Puesto || 'N/A' }}</td>
           <td>
-            <span [class.text-success]="usuario.Estado === 1" [class.text-danger]="usuario.Estado === 0">
-              {{ usuario.Estado === 1 ? 'Alta' : 'Baja' }}
+            <span [class.text-success]="usuario.Estado" [class.text-danger]="!usuario.Estado">
+              {{ usuario.Estado ? 'Alta' : 'Baja' }}
             </span>
           </td>
           <td>
             <button class="btn btn-sm btn-success d-flex align-items-center justify-content-center gap-1"
-              (click)="editarUsuario(usuario)">
+              (click)="editarUsuarios(usuario)">
               <i class="bi bi-pencil-fill"></i>
               Editar
             </button>
@@ -59,8 +61,10 @@
       </button>
 
       <ng-container *ngFor="let pagina of paginasVisibles">
-        <button class="btn" [class.btn-outline-secondary]="pagina !== paginaActual"
-          [class.btn-primary]="pagina === paginaActual" (click)="cambiarPagina(pagina)">
+        <button class="btn"
+          [class.btn-outline-secondary]="pagina !== paginaActual"
+          [class.btn-primary]="pagina === paginaActual"
+          (click)="cambiarPagina(pagina)">
           {{ pagina }}
         </button>
       </ng-container>
@@ -73,11 +77,17 @@
   </div>
 
   <!-- Modales -->
-  <app-editar-usuario *ngIf="modalVisible" [usuario]="usuarioEditando" (guardar)="guardarCambiosDesdeModal($event)"
+  <app-editar-usuarios
+    *ngIf="modalVisible"
+    [usuario]="usuarioEditado"
+    (guardar)="guardarCambiosDesdeModal($event)"
     (cancelar)="cerrarModal()">
-  </app-editar-usuario>
+  </app-editar-usuarios>
 
-  <app-insertar-usuarios *ngIf="modalInsertarVisible" (guardar)="guardarNuevoUsuario($event)"
+  <app-insertar-usuarios
+    *ngIf="modalInsertarVisible"
+    (guardar)="guardarNuevoUsuario($event)"
     (cancelar)="cerrarModalInsertar()">
   </app-insertar-usuarios>
 </div>
+

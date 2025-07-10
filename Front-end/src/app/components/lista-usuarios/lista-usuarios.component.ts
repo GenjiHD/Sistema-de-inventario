@@ -14,16 +14,28 @@ import { InsertarUsuariosComponent } from '../insertar-usuarios/insertar-usuario
   templateUrl: './lista-usuarios.component.html',
   styleUrl: './lista-usuarios.component.css',
 })
-
-export class ListaUsuariosComponent {
+export class ListaUsuariosComponent implements OnInit {
   usuarios: Usuarios[] = [];
+  usuariosVisibles: Usuarios[] = [];
 
   loading: boolean = true;
 
   modalInsertarVisible: boolean = false;
-
   modalVisible: boolean = false;
-  usuarioEditado: Usuarios;
+
+  usuarioEditado: Usuarios = {
+    UsuarioID: 0,
+    Nombre: '',
+    Contrasena: '',
+    Puesto: '',
+    Estado: true
+  };
+
+  // Paginación
+  paginaActual: number = 1;
+  totalPaginas: number = 1;
+  paginasVisibles: number[] = [];
+  readonly USUARIOS_POR_PAGINA = 10;
 
   constructor(private usuariosService: UsuariosService) {}
 
@@ -36,6 +48,9 @@ export class ListaUsuariosComponent {
     this.usuariosService.getUsuarios().subscribe({
       next: (data: Usuarios[]) => {
         this.usuarios = data;
+        this.totalPaginas = Math.ceil(this.usuarios.length / this.USUARIOS_POR_PAGINA);
+        this.generarPaginasVisibles();
+        this.actualizarUsuariosVisibles();
         this.loading = false;
       },
       error: (error) => {
@@ -45,6 +60,23 @@ export class ListaUsuariosComponent {
     });
   }
 
+  actualizarUsuariosVisibles(): void {
+    const inicio = (this.paginaActual - 1) * this.USUARIOS_POR_PAGINA;
+    const fin = inicio + this.USUARIOS_POR_PAGINA;
+    this.usuariosVisibles = this.usuarios.slice(inicio, fin);
+  }
+
+  generarPaginasVisibles(): void {
+    this.paginasVisibles = Array.from({ length: this.totalPaginas }, (_, i) => i + 1);
+  }
+
+  cambiarPagina(pagina: number): void {
+    if (pagina >= 1 && pagina <= this.totalPaginas) {
+      this.paginaActual = pagina;
+      this.actualizarUsuariosVisibles();
+    }
+  }
+
   editarUsuarios(usuarios: Usuarios): void {
     this.usuarioEditado = { ...usuarios };
     this.modalVisible = true;
@@ -52,7 +84,13 @@ export class ListaUsuariosComponent {
 
   cerrarModal(): void {
     this.modalVisible = false;
-    this.usuarioEditado = null;
+    this.usuarioEditado = {
+      UsuarioID: 0,
+      Nombre: '',
+      Contrasena: '',
+      Puesto: '',
+      Estado: true
+    };
   }
 
   guardarNuevosDatos(usuarioActualizado: Usuarios): void {
@@ -90,17 +128,24 @@ export class ListaUsuariosComponent {
   }
 
   darDeBajaUsuarios(usuario: Usuarios): void {
-    if (confirm(`Deseas dar de baja a este usuario {$usuario.Nombre}?`)) {
-      this.usuariosService.deactivateUsuarios(usuario.UsuarioID).subscribe({
-        next: () => {
-          console.log('El usuario ha sido dado de baja correctamente');
-          this.cargarUsuarios();
-          this.cerrarModal();
-        },
-        error: (error) => {
-          console.error('Error al dar de baja al usuario: ', error)
-        }
-      });
+    if (confirm(`¿Deseas dar de baja a este usuario ${usuario.Nombre}?`)) {
+      if (usuario.UsuarioID !== undefined) {
+        this.usuariosService.deactivateUsuarios(usuario.UsuarioID).subscribe({
+          next: () => {
+            console.log('El usuario ha sido dado de baja correctamente');
+            this.cargarUsuarios();
+            this.cerrarModal();
+          },
+          error: (error) => {
+            console.error('Error al dar de baja al usuario: ', error);
+          }
+        });
+      }
     }
   }
+
+  guardarCambiosDesdeModal(usuario: Usuarios): void {
+    this.guardarNuevosDatos(usuario);
+  }
 }
+

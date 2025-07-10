@@ -6,12 +6,12 @@
       <form (ngSubmit)="onGuardar()">
         <div class="mb-3">
           <label>Nombre</label>
-          <input type="text" [(ngModel)]="usuario.Nombre" name="nombre" class="form-control" required />
+          <input type="text" [(ngModel)]="nuevoUsuario.Nombre" name="nombre" class="form-control" required />
         </div>
 
         <div class="mb-3 position-relative">
           <label>Contraseña</label>
-          <input [type]="mostrarPassword ? 'text' : 'password'" [(ngModel)]="usuario.Contrasena" name="contraseña"
+          <input [type]="mostrarPassword ? 'text' : 'password'" [(ngModel)]="nuevoUsuario.Contrasena" name="contraseña"
             class="form-control" required />
           <button type="button" (click)="togglePassword()"
             class="btn btn-sm btn-link position-absolute end-0 top-50 translate-middle-y">
@@ -21,12 +21,12 @@
 
         <div class="mb-3">
           <label>Puesto</label>
-          <input type="text" [(ngModel)]="usuario.Puesto" name="puesto" class="form-control" />
+          <input type="text" [(ngModel)]="nuevoUsuario.Puesto" name="puesto" class="form-control" />
         </div>
 
         <div class="mb-3">
           <label>Estado</label>
-          <select [(ngModel)]="usuario.Estado" name="estado" class="form-select" required>
+          <select [(ngModel)]="nuevoUsuario.Estado" name="estado" class="form-select" required>
             <option [value]="1">Alta</option>
             <option [value]="0">Baja</option>
           </select>

@@ -3,7 +3,7 @@
     <div class="modal-content p-4">
       <h4 class="mb-3">Editar Usuario</h4>
 
-      <form (ngSubmit)="guardar()">
+      <form (ngSubmit)="onGuardar()">
         <div class="mb-3">
           <label>Nombre</label>
           <input type="text" [(ngModel)]="usuario.Nombre" name="nombre" class="form-control" required />
