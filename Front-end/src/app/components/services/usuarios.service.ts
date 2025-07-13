@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Usuarios } from '../../models/usuarios.model';
 
@@ -17,11 +17,13 @@ export class UsuariosService {
   }
 
   createUsuario(usuarios: Omit<Usuarios,'UsuarioID'>): Observable<Usuarios> {
-    return this.http.post<Usuarios>(this.apiUrl, usuarios);
+    const headers = new HttpHeaders({ 'Content-type': 'application/json' });
+    return this.http.post<Usuarios>(this.apiUrl, usuarios, { headers });
   }
 
   updateUsuario(usuarios: Usuarios): Observable<Usuarios> {
-  const url = `${this.apiUrl}/${usuarios.UsuarioID}`;
+    const url = `${this.apiUrl}/${usuarios.UsuarioID}`;
+    const headers = new HttpHeaders({ 'Content-type': 'application/json'});
 
     const body = {
       Nombre: usuarios.Nombre,
@@ -29,7 +31,7 @@ export class UsuariosService {
       Puesto: usuarios.Puesto,
       Estado: usuarios.Estado
     };
-    return this.http.put<Usuarios>(url, body);
+    return this.http.put<Usuarios>(url, body, { headers });
   }
 
   deactivateUsuarios(id: number): Observable<any> {

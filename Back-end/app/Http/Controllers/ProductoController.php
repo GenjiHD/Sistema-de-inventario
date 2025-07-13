@@ -28,6 +28,11 @@ class ProductoController extends Controller
 
     public function store(Request $request)
     {
+
+        if (!$request->expectsJson()) {
+            return response()->json(['error' => 'Solo se aceptan peticiones JSON'], 400);
+        }
+
         $validateData = $request->validate([
             'NumeroControl' => 'required',
             'NumeroSerie' => 'required',
@@ -37,13 +42,13 @@ class ProductoController extends Controller
             'Categoria' => 'required',
             'Factura' => 'required',
             'Cantidad' => 'required|int',
+            'FechaAlta' => 'required|date',
+            'FechaBaja' => 'nullable|date',
             'Valor' => 'required'
         ]);
 
         try {
-            $producto = Productos::create($validateData);
-
-            $data = [
+            $producto = Productos::create($validateData); $data = [
                 'Productos' => $producto,
                 'message' => 'El producto se creo correctamente',
                 'status' => 200

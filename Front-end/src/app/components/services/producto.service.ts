@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Producto } from '../../models/producto.model';
 
@@ -16,11 +16,13 @@ export class ProductoService {
   }
 
   createProductos(producto: Omit<Producto, 'ProductoID'>): Observable<Producto> {
-    return this.http.post<Producto>(this.apiUrl, producto);
+    const headers = new HttpHeaders({ 'Content-type': 'application/json' });
+    return this.http.post<Producto>(this.apiUrl, producto, { headers });
   }
 
   updateProductos(producto: Producto): Observable<Producto> {
     const url = `${this.apiUrl}/${producto.ProductoID}`;
+    const headers = new HttpHeaders({ 'Content-type': 'application/json' });
 
     const body = {
       NumeroControl: producto.NumeroControl,
@@ -31,7 +33,7 @@ export class ProductoService {
       Valor: producto.Valor,
       FechaAlta: producto.FechaAlta
     };
-    return this.http.put<Producto>(url, body);
+    return this.http.put<Producto>(url, body, { headers });
   }
 }
 
