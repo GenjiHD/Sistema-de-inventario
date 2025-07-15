@@ -1,28 +1,87 @@
-/* Modal general */
+/* Fondo oscuro tras la modal */
+.modal-backdrop,
 .modal {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(33, 37, 41, 0.75); /* fondo oscuro translúcido */
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1040;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
-  z-index: 1050;
+  padding-top: 5vh;
+  overflow-y: auto;
 }
 
-/* Contenedor del diálogo */
+/* Contenedor principal de la modal */
 .modal-dialog {
-  width: 100%;
-  max-width: 500px;
+  width: 95%;
+  max-width: 1000px;
 }
 
-/* Estilo del contenido del modal */
+/* Tarjeta de la modal */
 .modal-content {
   background-color: #ffffff;
+  border-radius: 1.5rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+  padding: 2.5rem;
+  font-size: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Inputs estilizados */
+.modal-content input,
+.modal-content select {
+  font-size: 1.05rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid #ced4da;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-content input:focus,
+.modal-content select:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  outline: none;
+}
+
+/* Botones */
+.btn {
+  font-size: 1.05rem;
+  padding: 0.6rem 1.5rem;
   border-radius: 0.5rem;
-  box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+  min-width: 120px;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: #5c636a;
+}
+
+.btn-primary {
+  background-color: #0d6efd;
+  border: none;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0b5ed7;
 }
 
 /* Botón de mostrar contraseña */
@@ -35,31 +94,26 @@
   color: #0d6efd;
 }
 
-/* Títulos y márgenes */
-.modal-content h4 {
-  font-weight: 600;
+/* Contenedor del formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
-/* Botones */
-.btn {
-  min-width: 90px;
-}
+/* Responsive: soporte para filas múltiples */
+@media (min-width: 768px) {
+  form {
+    column-gap: 2rem;
+  }
 
-.btn-secondary {
-  background-color: #6c757d;
-  border: none;
-}
+  .form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+  }
 
-.btn-secondary:hover {
-  background-color: #5c636a;
+  .form-section {
+    flex: 1;
+  }
 }
-
-.btn-primary {
-  background-color: #0d6efd;
-  border: none;
-}
-
-.btn-primary:hover {
-  background-color: #0b5ed7;
-}
-
